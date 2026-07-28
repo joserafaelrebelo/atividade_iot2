@@ -18,7 +18,8 @@ iot_atividade2/
 │   └── requirements.txt
 ├── diagrams/
 │   ├── arquitetura.drawio
-│   └── fluxo.drawio
+│   ├── fluxo.drawio
+│   └── arquitetura.mmd
 └── video/
     └── link_video.txt
 ```
@@ -26,6 +27,25 @@ iot_atividade2/
 ## Visão geral
 
 O projeto SmartLab Inventory usa MQTT para comunicação entre dispositivos ESP32, broker e aplicações consumidoras. A arquitetura proposta organiza eventos por laboratório, gateway e tipo de mensagem, permitindo expansão futura e integração com AWS IoT Core.
+
+## Arquitetura MQTT
+
+```mermaid
+flowchart LR
+  S1[Leitor RFID] --> ESP[ESP32 Gateway]
+  S2[Sensor Porta] --> ESP
+  S3[Sensor Peso] --> ESP
+
+  ESP --> BROKER[Broker MQTT]
+  BROKER --> API[Backend FastAPI]
+  BROKER --> DASH[Dashboard React]
+  API --> DB[(PostgreSQL)]
+  API --> ALT[Alertas]
+
+  AWS[AWS IoT Core] -. futuro .-> BROKER
+  AWS -. futuro .-> API
+  AWS -. futuro .-> DASH
+```
 
 ## Componentes
 
@@ -56,7 +76,7 @@ Consulte `docs/topicos-mqtt.md`.
 
 ## Diagramas
 
-Os arquivos `.drawio` estão em `diagrams/` e podem ser abertos no Draw.io/diagrams.net.
+Os arquivos `.drawio` e `.mmd` estão em `diagrams/` e podem ser abertos no Draw.io/diagrams.net ou renderizados no GitHub.
 
 ## Vídeo demonstrativo
 

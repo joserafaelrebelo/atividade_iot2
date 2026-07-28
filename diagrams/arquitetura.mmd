@@ -1,46 +1,14 @@
 flowchart LR
-  %% SmartLab Inventory - Arquitetura MQTT
+  S1[Leitor RFID] --> ESP[ESP32 Gateway]
+  S2[Sensor Porta] --> ESP
+  S3[Sensor Peso] --> ESP
 
-  subgraph Campo[Camada de Campo]
-    S1[Leitor RFID]
-    S2[Sensor Magnético\n(Porta/Gaveta)]
-    S3[Sensor de Peso\n(HX711)]
-    ESP[ESP32\nGateway / Publisher]
-  end
+  ESP --> BROKER[Broker MQTT]
+  BROKER --> API[Backend FastAPI]
+  BROKER --> DASH[Dashboard React]
+  API --> DB[(PostgreSQL)]
+  API --> ALT[Alertas]
 
-  subgraph Comu[Comunicação MQTT]
-    BROKER[(Broker MQTT)]
-  end
-
-  subgraph Aplicacoes[Camada de Aplicações]
-    API[FastAPI\nSubscriber / Backend]
-    DASH[Dashboard React\nSubscriber]
-    DB[(PostgreSQL)]
-    ALT[Alertas e\nNotificações]
-  end
-
-  subgraph Futuro[Integração Futura]
-    AWS[AWS IoT Core]
-  end
-
-  S1 --> ESP
-  S2 --> ESP
-  S3 --> ESP
-  ESP -->|publica tópicos\nrfid / door / weight / status| BROKER
-  BROKER -->|consome eventos| API
-  BROKER -->|consome eventos| DASH
-  API --> DB
-  API --> ALT
-  AWS -. substitui ou complementa .-> BROKER
-  AWS -. integração futura .-> API
-  AWS -. integração futura .-> DASH
-
-  style Campo fill:#f8fbff,stroke:#4e79a7,stroke-width:1px
-  style Comu fill:#f7fff7,stroke:#59a14f,stroke-width:1px
-  style Aplicacoes fill:#fffaf2,stroke:#edc948,stroke-width:1px
-  style Futuro fill:#fff5f5,stroke:#e15759,stroke-width:1px
-  style ESP fill:#dbeafe,stroke:#2563eb,stroke-width:2px
-  style BROKER fill:#dcfce7,stroke:#16a34a,stroke-width:2px
-  style API fill:#fef3c7,stroke:#ca8a04,stroke-width:2px
-  style DASH fill:#fee2e2,stroke:#dc2626,stroke-width:2px
-  style DB fill:#ede9fe,stroke:#7c3aed,stroke-width:2px
+  AWS[AWS IoT Core] -. futuro .-> BROKER
+  AWS -. futuro .-> API
+  AWS -. futuro .-> DASH
