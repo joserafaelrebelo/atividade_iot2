@@ -80,7 +80,11 @@ Os arquivos `.drawio` e `.mmd` estão em `diagrams/` e podem ser abertos no Draw
 
 ## Vídeo demonstrativo
 
-Preencha o arquivo `video/link_video.txt` com o link do vídeo da apresentação.
+
+
+https://github.com/user-attachments/assets/890feae6-90bb-4ba8-97cb-ddc4ba7101b5
+
+
 
 ## Integração futura com AWS
 
