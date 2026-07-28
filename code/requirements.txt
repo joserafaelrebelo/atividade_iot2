@@ -1,0 +1,3 @@
+# Placeholder
+
+Dependências adicionais podem ser adicionadas aqui caso você utilize scripts auxiliares para testes ou automação.
