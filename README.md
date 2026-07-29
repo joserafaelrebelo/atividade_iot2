@@ -44,9 +44,10 @@ flowchart LR
 
 ## Vídeo de Demonstração
 
-<video controls width="100%" preload="metadata">
-  <source src="./video/demo_iot_smartlab.mp4" type="video/mp4">
-</video>
+
+
+https://github.com/user-attachments/assets/99860a60-9d05-4e0e-996d-2e3d4566f272
+
 
 ---
 
