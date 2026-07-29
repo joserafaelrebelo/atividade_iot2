@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "author": "Eduardo Dias",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn_tag1",
+      "top": -32.2,
+      "left": 182.4,
+      "attrs": { "color": "blue", "label": "Tag Furadeira" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn_tag2",
+      "top": 48,
+      "left": 180,
+      "attrs": { "color": "green", "label": "Tag Multimetro" }
+    },
+    { "type": "wokwi-potentiometer", "id": "pot_peso", "top": 123.5, "left": 259, "attrs": {} },
+    {
+      "type": "wokwi-led",
+      "id": "led_trava",
+      "top": -109.2,
+      "left": -101.8,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "res1",
+      "top": -72.55,
+      "left": 37,
+      "rotate": 180,
+      "attrs": { "value": "220" }
+    }
+  ],
+  "connections": [
+    [ "esp:GND.1", "btn_tag1:1.l", "black", [ "v0" ] ],
+    [ "esp:D12", "btn_tag1:2.l", "blue", [ "v0" ] ],
+    [ "esp:GND.1", "btn_tag2:1.l", "black", [ "v0" ] ],
+    [ "esp:D14", "btn_tag2:2.l", "green", [ "v0" ] ],
+    [ "esp:GND.2", "pot_peso:GND", "black", [ "v0" ] ],
+    [ "esp:3V3", "pot_peso:VCC", "red", [ "v0" ] ],
+    [ "esp:D34", "pot_peso:SIG", "orange", [ "v0" ] ],
+    [ "esp:D2", "res1:1", "blue", [ "v0" ] ],
+    [ "res1:2", "led_trava:A", "green", [ "v0" ] ],
+    [ "led_trava:C", "esp:GND.2", "black", [ "v0" ] ]
+  ],
+  "dependencies": {}
+}

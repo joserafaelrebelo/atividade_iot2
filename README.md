@@ -1,91 +1,81 @@
-# iot_atividade2
+# SmartLab Inventory - Sistema Inteligente de Gestão de Laboratórios
 
-Repositório da **Atividade Prática 02 – Comunicação em IoT utilizando MQTT** para o projeto **SmartLab Inventory**.
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![Protocol](https://img.shields.io/badge/Protocol-MQTT%2FMQTTS-orange.svg)
+![Hardware](https://img.shields.io/badge/Hardware-ESP32-green.svg)
+![Cloud](https://img.shields.io/badge/Cloud-AWS%20IoT%20Core-yellow.svg)
 
-## Estrutura
+O **SmartLab Inventory** é uma solução IoT end-to-end projetada para automatizar o rastreamento, controle de empréstimos de ferramentas e monitoramento de estoque de componentes em tempo real dentro de ambientes de ensino e pesquisa.
 
-```text
-iot_atividade2/
-├── README.md
-├── docs/
-│   ├── atividade02.pdf
-│   ├── arquitetura-mqtt.png
-│   ├── fluxo-comunicacao.png
-│   └── topicos-mqtt.md
-├── code/
-│   ├── publisher.ino
-│   ├── subscriber.ino
-│   └── requirements.txt
-├── diagrams/
-│   ├── arquitetura.drawio
-│   ├── fluxo.drawio
-│   └── arquitetura.mmd
-└── video/
-    └── link_video.txt
-```
+---
 
-## Visão geral
+## 💻 Problema vs Solução
 
-O projeto SmartLab Inventory usa MQTT para comunicação entre dispositivos ESP32, broker e aplicações consumidoras. A arquitetura proposta organiza eventos por laboratório, gateway e tipo de mensagem, permitindo expansão futura e integração com AWS IoT Core.
+* **Problema:** Perda constante de ferramentas, descontrole em estoque de insumos e falhas em registros manuais causam atrasos e custos desnecessários em laboratórios.
+* **Solução:** Uma rede de gateways ESP32 equipados com leitores RFID, sensores magnéticos e células de carga acoplados ao AWS IoT Core e dashboards Web para gestão automatizada.
 
-## Arquitetura MQTT
+---
+
+## 🏗️ Arquitetura do Sistema
+
 
 ```mermaid
 flowchart LR
-  S1[Leitor RFID] --> ESP[ESP32 Gateway]
-  S2[Sensor Porta] --> ESP
-  S3[Sensor Peso] --> ESP
-
-  ESP --> BROKER[Broker MQTT]
-  BROKER --> API[Backend FastAPI]
-  BROKER --> DASH[Dashboard React]
-  API --> DB[(PostgreSQL)]
-  API --> ALT[Alertas]
-
-  AWS[AWS IoT Core] -. futuro .-> BROKER
-  AWS -. futuro .-> API
-  AWS -. futuro .-> DASH
+	A[Sensores / Tags RFID / Peso] --> B[Gateway ESP32]
+	B -->|MQTTS / TLS v1.2| C[AWS IoT Core Broker]
+	C --> D[Rules Engine]
+	D --> E[AWS Lambda]
+	E --> F[PostgreSQL]
+	C --> G[Device Shadow]
+	G <--> H[Dashboard React / FastAPI]
 ```
+---
 
-## Componentes
+## 📡 Tópicos MQTT Principais
 
-- **ESP32 Publisher**: publica eventos MQTT
-- **ESP32 Subscriber**: assina o tópico de teste e exibe mensagens
-- **Broker**: HiveMQ público para prova de conceito
-- **Backend futuro**: FastAPI + PostgreSQL
-- **Dashboard futuro**: React
+| Tópico | Descrição | QoS |
+| :--- | :--- | :---: |
+| `smartlab/armario1/rfid/evento` | Eventos de checkout/checkin de ferramentas por RFID | 1 |
+| `smartlab/armario1/porta/status` | Estado físico da porta (Aberta/Fechada) | 1 |
+| `smartlab/prateleira1/telemetria` | Leitura contínua da massa (gramas) na prateleira | 0 |
+| `smartlab/armario1/trava/cmd` | Comando remoto para liberação da trava magnética | 1 |
 
-## Prova de conceito
+---
 
-Broker utilizado para testes:
-- `broker.hivemq.com`
-- Porta: `1883`
-- Tópico de teste: `smartlab/renan/lab01/teste01`
+## Vídeo de Demonstração
 
-## Como executar no Wokwi
+![demo_iot_smartlab.mp4](./video/demo_iot_smartlab.mp4)
 
-1. Abra um projeto ESP32 no Wokwi.
-2. Configure a rede `Wokwi-GUEST`.
-3. Use o código do arquivo `code/publisher.ino` em uma placa e `code/subscriber.ino` em outra.
-4. Inicie ambos os simuladores.
-5. Verifique no monitor serial o envio e recebimento das mensagens.
+---
 
-## Tópicos MQTT
+## 🚀 Como Executar a Simulação
 
-Consulte `docs/topicos-mqtt.md`.
+### 1. Simulação no Wokwi Web (Edge / ESP32)
+1. Acesse o [Wokwi](https://wokwi.com).
+2. Carregue o arquivo `code/diagram.json` e o `code/sketch.ino`.
+3. Adicione a biblioteca `PubSubClient` em `libraries.txt`.
+4. Inicie a simulação.
 
-## Diagramas
+### 2. Simulação em Python (Local)
+```bash
+# 1. Clonar o repositório
+git clone https://github.com/joserafaelrebelo/atividade_iot2.git
+cd atividade_iot2
 
-Os arquivos `.drawio` e `.mmd` estão em `diagrams/` e podem ser abertos no Draw.io/diagrams.net ou renderizados no GitHub.
+# 2. Instalar dependências
+pip install -r requirements.txt
 
-## Vídeo demonstrativo
+# 3. Rodar o Subscriber (Backend)
+python src/subscriber_backend.py
 
+# 4. Rodar o Publisher (ESP32 Simulado)
+python src/publisher_esp32.py
+```
+---
+## 👥 Autores
 
+- Eduardo Dias Peixoto  
+- José Rafael Rebêlo Teles  
+- Luan de Paula Mota  
+- Renan Godoi Sant’ana
 
-https://github.com/user-attachments/assets/890feae6-90bb-4ba8-97cb-ddc4ba7101b5
-
-
-
-## Integração futura com AWS
-
-A evolução prevista é migrar a comunicação para o **AWS IoT Core**, usando certificados, regras de roteamento e integração com serviços como Lambda, S3, DynamoDB e Kinesis.
