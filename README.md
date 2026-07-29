@@ -44,7 +44,9 @@ flowchart LR
 
 ## Vídeo de Demonstração
 
-![demo_iot_smartlab.mp4](./video/demo_iot_smartlab.mp4)
+<video controls width="100%" preload="metadata">
+  <source src="./video/demo_iot_smartlab.mp4" type="video/mp4">
+</video>
 
 ---
 
