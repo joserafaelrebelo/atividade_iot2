@@ -7,10 +7,10 @@ const char* ssid = "Wokwi-GUEST";
 const char* password = "";
 
 // Configurações do SEU Broker MQTT Privado (HiveMQ Cloud)
-const char* mqtt_server = "98a7c8c5e0904abf9a2eaefc8243b306.s1.eu.hivemq.cloud"; // Ex: blabla.hivemq.cloud
+const char* mqtt_server = ""; // Ex: blabla.hivemq.cloud
 const int mqtt_port = 8883; // Porta para conexão segura TLS/SSL
-const char* mqtt_user = "luan"; // Usuário criado no HiveMQ
-const char* mqtt_pass = "789789789";   // Senha criada no HiveMQ
+const char* mqtt_user = ""; // Usuário criado no HiveMQ
+const char* mqtt_pass = "";   // Senha criada no HiveMQ
 
 // Mapeamento dos Pinos do Circuito
 const int BTN_TAG_1 = 12; // Simula leitura RFID: Furadeira
